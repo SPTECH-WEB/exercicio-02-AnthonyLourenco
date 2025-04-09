@@ -47,4 +47,61 @@ Você foi contratado para desenvolver um módulo de **logística**. Esse módulo
 
 ---
 
+Padrões de Projeto Utilizados
+
+Este projeto aplica três padrões de projeto: Strategy, Adapter e Observer, cada um com um papel específico dentro do módulo de logística.
+
+
+🎯 Strategy Pattern – Cálculo de Frete
+
+O padrão Strategy é utilizado para definir diferentes algoritmos de cálculo de frete, de forma intercambiável, sem modificar o código do cliente.
+
+    Cada tipo de entrega (expressa, econômica, terceirizada) implementa a interface FreteStrategy.
+
+    A escolha da estratégia é feita dinamicamente com base no parâmetro modalidade passado na requisição HTTP.
+
+    Isso permite adicionar novas modalidades de frete sem alterar o código principal.
+
+Exemplo de classes envolvidas:
+
+    FreteStrategy (interface)
+
+    EntregaExpressa, EntregaEconomica, TransportadoraTerceirizada (implementações)
+
+🔌 Adapter Pattern – Integração com Transportadora Externa
+
+O padrão Adapter é usado para integrar o sistema com uma transportadora externa cuja API não é compatível com a nossa interface.
+
+    A classe TransportadoraExternaAPI simula uma API de terceiros.
+
+    TransportadoraExternaAdapter adapta essa API para a interface ITransportadora, usada internamente.
+
+    Isso permite manter a lógica interna desacoplada da API externa, facilitando futuras trocas ou simulações.
+
+Exemplo de classes envolvidas:
+
+    TransportadoraExternaAPI (simula uma API externa)
+
+    ITransportadora (interface interna)
+
+    TransportadoraExternaAdapter (adaptador entre os dois)
+
+📢 Observer Pattern – Notificações de Entrega
+
+O padrão Observer permite notificar automaticamente múltiplos componentes após o processamento de uma entrega.
+
+    Ao concluir o cálculo do frete, o sistema notifica dois tipos de observadores: o cliente e a equipe interna.
+
+    A classe EntregaSubject gerencia os observadores e dispara as notificações.
+
+    Isso promove desacoplamento e facilita a adição de novos canais de notificação no futuro.
+
+Exemplo de classes envolvidas:
+
+    Notificador (interface de observador)
+
+    ClienteObserver, InternoObserver (implementações)
+
+    EntregaSubject (sujeito observado)
+
 
